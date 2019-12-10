@@ -1,24 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { lazy, Suspense, useState } from 'react';
 import './App.css';
 
+const LoadLater = lazy(() => import('./Later'))
+
 const App: React.FC = () => {
+  const [loadLater, setLoadLater] = useState<boolean>(false)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={() => setLoadLater(true)}>
+        Load Later
+      </button>
+      {loadLater &&
+        <Suspense fallback="Loading...">
+          <LoadLater />
+        </Suspense>
+      }
     </div>
   );
 }
